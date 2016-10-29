@@ -7,7 +7,7 @@
   <title>PHP Form Demo 1_Bootstrap</title>
 </head>
 <body>
-<div class="container" style="border:1px black solid">
+<div class="container">
  <form action="http://localhost/medt/ue5/hue/index.php">
  <h3> Anmeldeinfos bitte eingeben:</h3> 
   <div class="form-group form-inline">
@@ -28,7 +28,8 @@
     <label>Blue</label>
     <input type="radio" name="rb" value="blue">
   </div>
-  <button type="submit" class="btn btn-default" name="submitBtn">OK</button>  
+  <button type="submit" class="btn btn-default" name="submitBtn">OK</button> 
+
 </form>
 <?php
   if(isset($_GET['submitBtn'])){  
