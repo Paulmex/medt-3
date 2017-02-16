@@ -17,8 +17,7 @@
 	// DB Settings
 	$host ='localhost';
 	$dbname='medt3';
-	$user='htluser';
-	$pwd='htluser';
+	include '../users.php';
 	//$pwd='error';
 	//Establish connection
 	try {
