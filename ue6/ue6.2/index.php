@@ -14,7 +14,12 @@
 <div class="container">
 <img src="BlueIT.PNG">
 </header>
-<?php $whitelist =["home","contact","about"];?>
+<?php //$whitelist =["home","contact","about"];
+$path=$_SERVER['PHP_SELF'];
+$filename = explode('/', $path);
+$filename=$filename[sizeof($filename)-1];
+$path=str_replace($filename,"",$path);
+?>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -27,12 +32,13 @@
                 <a class="navbar-brand" href="#">blueIT</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="index.php?action=home">Home<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">About<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Portfolio<span class="sr-only">(current)</span></a></li>
-                    <li><a href="index.php?action=contact">Kontakt<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Mein Konto<span class="sr-only">(current)</span></a></li>
+                <ul class="nav navbar-nav"><?php
+                    echo '<li><a href="'.$path.'home">Home<span class="sr-only">(current)</span></a></li>';
+                    echo '<li><a href="#">About<span class="sr-only">(current)</span></a></li>';
+                    echo '<li><a href="#">Portfolio<span class="sr-only">(current)</span></a></li>';
+                    echo '<li><a href="'.$path.'contact">Kontakt<span class="sr-only">(current)</span></a></li>';
+                    echo '<li><a href="#">Mein Konto<span class="sr-only">(current)</span></a></li>';
+                    ?>
                 </ul>
             </div>
         </div>
