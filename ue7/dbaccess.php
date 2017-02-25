@@ -9,14 +9,14 @@
 	<!--Workaround für Cursoranzeige bei den Icons
 	a{
 		cursor: pointer;
-	}
-	-->
+	}	
 	<style>
 	.scrollbar {
     		overflow-y:scroll; 
 			overflow-x:hidden;   		
 		}   		
 	</style>
+	-->
 </head>
 <body>
 <div class="container">
@@ -47,14 +47,24 @@
 	    $createDate=$_POST['createDate']." ".$_POST['time'];
 		$res=$db->query ( "UPDATE project SET name='$name', description='$description', createDate='$createDate' WHERE id=$id" );	
 	}
-	//$res: PDOStatement
-	$res=$db->query ( "SELECT name,description,createDate, id FROM project" );	
+	$startval;
+	$endval;
+	if(isset($_GET['page']))
+	{
+			$startval=$_GET['page']*5;
+			$endval=$startval+5;
+	}	else  {
+		$startval=0;
+		$endval=$startval+5;
+	}
+	
+	//$res: PDOStatement	
+	$res=$db->query ( "SELECT name,description,createDate, id FROM project LIMIT $startval,$endval" );	
 	//$tmp: array	
 	$tmp=$res->fetchAll(PDO::FETCH_OBJ); //FETCH_OBJ in die Klammern wenn man objektorientiert arbeiten will
 	?>		
 	
 	<h1>Projektübersicht</h1>
-	<div class="scrollbar" style="height:250px;">		
 	<table class="table table-striped table-hover">		
 		<thead>
 			<tr style="background-color: lightgrey;">
@@ -74,9 +84,45 @@
 			</tr>				
 	 		<?php endforeach; 	 ?>
 	  	</tbody>	  
-	  </table>
-	  </div>
-
+	  </table> 
+	  <nav aria-label="Page navigation">
+		<ul class="pagination">
+			<li>
+			<a href="#" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+			</li><?php 
+			$res=$db->query ( "SELECT COUNT(id) FROM project" );	
+			$tmp=$res->fetchColumn();
+			$num=$tmp/5;
+			$num=intval($num);			
+			for($i=0;$i<$num+1;$i++)
+			{			
+				$active=false;	
+				$displayi=$i+1;						
+				if(isset($_GET['page']))
+				{
+					if($i==$_GET['page'])
+					{
+						$active=true;
+					}
+				}				
+				if($active==false){
+					echo '<li><a href="dbaccess.php?page='.$i.'">'.$displayi.'</a></li>';
+				}
+				else
+				{
+					echo '<li class="active"><a href="dbaccess.php?page='.$i.'">'.$displayi.'</a></li>';
+				}
+			}					
+			?>	
+			<li>
+			<a href="#" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+			</li>
+		</ul>
+		</nav>
 	  <?php 
 	  
 	  function createProjectHTMLTable($db)
