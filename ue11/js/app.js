@@ -25,21 +25,18 @@ $(document).ready(function() {
             //var id = $(this).parent().parent().parent().attr("id");
             var myAJAXConf = {
                 url: "http://localhost:8080/medt/ue11/api/trackstar-api.php",
+                dataType: "json",                
                 method: "POST",
                 data: "deleteProId=" + id,
                 //data: "deleteProId=" + $(this).parent().attr("id"), //vom Typ String
-                //data: {deleteProId: this.id} //vom Typ Object
-                success: function (serverResponse) {
-                    console.log("Server response: " + serverResponse);
-                    if (serverResponse==1) {
-                        //Tabellenzeile entfernen und Infobox
-                        //"Löschen erfolgreich" einblenden!
+                //data: {deleteProId: this.id} //vom Typ Object                
+                success: function(data){
+                    console.log(data);
+                    if (data.deleteResponse) {
                         $('#info-box').text("Löschen erfolgreich").removeClass("bg-danger").addClass("bg-success").show().fadeOut(4000);
-                        //$('#info-box').text("Löschen erfolgreich").removeClass("bg-danger").addClass("bg-success").show(300).delay(1000).hide(300);
                         $("#"+id).remove();
                     }
                     else {
-                        //Infobox "Löschen nicht erfolgreich" einblenden!
                         $('#info-box').text("Löschen fehlgeschlagen").removeClass("bg-success").addClass("bg-danger").show().fadeOut(4000);
                     }
                 },
@@ -54,16 +51,16 @@ $(document).ready(function() {
     $('#edit-project-btn').click(function(){      
         var currentdate = new Date();
         var datetime = currentdate.getHours() + ":" + currentdate.getMinutes()  + ":" + currentdate.getSeconds();    
-        var json={ updateProId: id, updateProName: $('#editNameBox').val(), updateProDesc: $('#editDescBox').val(), updateProDate: $('#editDateBox').val()+" "+datetime};
-        var jsonString = JSON.stringify(json);                 
+        var jsonData={ updateProId: id, updateProName: $('#editNameBox').val(), updateProDesc: $('#editDescBox').val(), updateProDate: $('#editDateBox').val()+" "+datetime};
+        var jsonString = JSON.stringify(jsonData);                 
         var myAJAXConf ={
             url: "http://localhost:8080/medt/ue11/api/trackstar-api.php",
             method: "POST",
             data: { updateProData: jsonString},
             success: function(serverResponse){
-                $("#"+id).find("td").eq(0).html(json.updateProName);
-                $("#"+id).find("td").eq(1).html(json.updateProDesc);
-                $("#"+id).find("td").eq(2).html(json.updateProDate);
+                $("#"+id).find("td").eq(0).html(jsonData.updateProName);
+                $("#"+id).find("td").eq(1).html(jsonData.updateProDesc);
+                $("#"+id).find("td").eq(2).html(jsonData.updateProDate);
                 $('#info-box').text("Bearbeiten erfolgreich").removeClass("bg-danger").addClass("bg-success").show().fadeOut(4000);
             },
             error: function(){

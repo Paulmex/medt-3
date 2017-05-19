@@ -95,6 +95,7 @@ require "db/db.php";
         <h4 class="modal-title">Projekt bearbeiten</h4>
       </div>
       <div class="modal-body">
+      <form>
           <div class="form-group form-inline">
               <label>Name </label>
               <input id="editNameBox" type="text" class="form-control" name="name">
@@ -107,6 +108,7 @@ require "db/db.php";
               <label>Date </label>
               <input id="editDateBox" type="date" name="createDate">
           </div>
+      </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
